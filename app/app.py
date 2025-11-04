@@ -12,7 +12,11 @@ def create_app():
 
     db.init_app(app)
 
-    # will import and register all blueprints here later
+    from app.auth.routes import auth
+    from app.core.routes import core
+
+    app.register_blueprint(core, url_prefix="/")
+    app.register_blueprint(auth, url_prefix="/auth")
 
     migrate = Migrate(app, db)
 
