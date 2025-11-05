@@ -23,3 +23,14 @@ class Car(db.Model):
 
     def __repr__(self):
         return f"<Car {self.year} {self.make} {self.model}>"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "make": self.make,
+            "model": self.model,
+            "year": self.year,
+            "status": self.status.value,
+            "price_per_hour": str(self.price_per_hour),
+            "merchant_id": self.merchant_id,
+        }

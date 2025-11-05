@@ -12,6 +12,9 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
+    from app.auth import models
+    from app.cars import models
+
     from app.auth.routes import auth
     from app.core.routes import core
     from app.cars.routes import cars
