@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE ${APP_PORT}
 
-CMD ["sh", "-c", "gunicorn -w 4 -b 0.0.0.0:${APP_PORT} app.app:create_app"]
+CMD ["sh", "-c", "gunicorn -w 4 -b 0.0.0.0:${APP_PORT} run:flask_app"]
