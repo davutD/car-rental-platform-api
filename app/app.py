@@ -14,8 +14,10 @@ def create_app():
 
     from app.auth.routes import auth
     from app.core.routes import core
+    from app.cars.routes import cars
 
     app.register_blueprint(core, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/auth")
+    app.register_blueprint(cars, url_prefix="/cars")
 
     return app

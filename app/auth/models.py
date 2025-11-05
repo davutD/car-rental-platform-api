@@ -1,5 +1,5 @@
 import enum
-from app.app import db
+from ..extensions import db
 from flask_login import UserMixin
 
 
@@ -40,9 +40,9 @@ class Merchant(db.Model):
         db.Integer, db.ForeignKey("users.id"), unique=True, nullable=False
     )
     user = db.relationship("User", back_populates="merchant_profile")
-    # cars = db.relationship(
-    #     "Car", back_populates="merchant", lazy="dynamic", cascade="all, delete-orphan"
-    # )
+    cars = db.relationship(
+        "Car", back_populates="merchant", lazy="dynamic", cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"<Merchant {self.company_name} >"
