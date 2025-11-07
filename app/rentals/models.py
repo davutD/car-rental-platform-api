@@ -16,3 +16,13 @@ class Rental(db.Model):
 
     def __repr__(self):
         return f"<Rental {self.id} - User {self.user_id} rented Car {self.car_id}>"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "car_id": self.car_id,
+            "rental_date": self.rental_date.isoformat(),
+            "return_date": self.return_date.isoformat() if self.return_date else None,
+            "total_fee": str(self.total_fee) if self.total_fee else None,
+        }
