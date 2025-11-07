@@ -3,26 +3,18 @@ from .models import User, UserRole, Merchant
 
 
 class AuthError(Exception):
-    """Base exception for authentication errors."""
-
     pass
 
 
 class ValidationError(AuthError):
-    """Raised for missing or invalid fields."""
-
     pass
 
 
 class UserAlreadyExistsError(AuthError):
-    """Raised when a user tries to register with an existing email."""
-
     pass
 
 
 class InvalidCredentialsError(AuthError):
-    """Raised for incorrect login credentials."""
-
     pass
 
 
