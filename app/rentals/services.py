@@ -74,3 +74,16 @@ def return_car(user_id):
     except Exception as e:
         db.session.rollback()
         raise Exception(f"Database error on return: {e}")
+
+
+def get_rental_history(user_id):
+    rentals = (
+        Rental.query.filter_by(user_id=user_id)
+        .order_by(Rental.rental_date.desc())
+        .all()
+    )
+
+    if not rentals:
+        raise NoActiveRentalError("You have no rental history")
+
+    return rentals

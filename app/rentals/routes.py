@@ -42,3 +42,17 @@ def return_car():
         return jsonify({"error": str(e)}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@rentals.route("/history", methods=["GET"])
+@login_required
+@role_required(UserRole.USER)
+def get_rental_history():
+    try:
+        user_id = current_user.id
+        rentals = services.get_rental_history(user_id)
+        return jsonify([rental.to_dict() for rental in rentals]), 200
+    except NoActiveRentalError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
