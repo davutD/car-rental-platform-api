@@ -69,10 +69,21 @@ def delete_merchant_car(car_id):
 
 
 @cars.route("/<int:car_id>", methods=["GET"])
-def get_merchant_car(car_id):
+def get_single_car(car_id):
     try:
         car = services.get_car(car_id)
         return jsonify(car.to_dict()), 200
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@cars.route("/", methods=["GET"])
+def get_all_cars():
+    try:
+        cars = services.get_all_cars()
+        return jsonify([car.to_dict() for car in cars]), 200
     except CarNotFoundError as e:
         return jsonify({"error": str(e)}), 404
     except Exception as e:

@@ -95,3 +95,10 @@ def get_car(car_id):
     if not car:
         raise CarNotFoundError("No car to display for this id")
     return car
+
+
+def get_all_cars():
+    cars = Car.query.all()
+    if not cars:
+        raise CarNotFoundError("No car to display")
+    return cars
