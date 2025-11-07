@@ -33,5 +33,47 @@ def get_merchant_cars():
         merchant_id = current_user.merchant_profile.id
         cars = services.get_merchant_cars(merchant_id)
         return jsonify([car.to_dict() for car in cars]), 200
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 500
+
+
+@cars.route("/<int:car_id>", methods=["PUT"])
+@login_required
+@role_required(UserRole.MERCHANT)
+def update_merchant_car(car_id):
+    try:
+        data = request.get_json()
+        merchant_id = current_user.merchant_profile.id
+        updated_car = services.update_car(car_id, data, merchant_id)
+        return jsonify(updated_car.to_dict()), 200
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@cars.route("/<int:car_id>", methods=["DELETE"])
+@login_required
+@role_required(UserRole.MERCHANT)
+def delete_merchant_car(car_id):
+    try:
+        merchant_id = current_user.merchant_profile.id
+        result = services.delete_car(car_id, merchant_id)
+        return jsonify(result)
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@cars.route("/<int:car_id>", methods=["GET"])
+def get_merchant_car(car_id):
+    try:
+        car = services.get_car(car_id)
+        return jsonify(car.to_dict()), 200
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
