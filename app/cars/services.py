@@ -30,11 +30,25 @@ def create_car(data, merchant_id):
     if missing_fields:
         raise ValidationError(f"Missing required fields: {', '.join(missing_fields)}")
 
+    try:
+        year = int(data.get("year"))
+    except (TypeError, ValueError):
+        raise ValidationError("Year must be a valid integer")
+    if year <= 0:
+        raise ValidationError("Year must be a positive integer")
+
+    try:
+        price_per_hour = Decimal(str(data.get("price_per_hour")))
+    except (TypeError, InvalidOperation):
+        raise ValidationError("Price per hour must be a valid decimal number")
+    if price_per_hour < 0:
+        raise ValidationError("Price per hour cannot be negative")
+
     new_car = Car(
         make=data.get("make"),
         model=data.get("model"),
-        year=data.get("year"),
-        price_per_hour=data.get("price_per_hour"),
+        year=year,
+        price_per_hour=price_per_hour,
         merchant_id=merchant_id,
     )
 
@@ -60,15 +74,36 @@ def update_car(car_id, data, merchant_id):
 
     try:
         if "make" in data:
-            car.make = data["make"]
+            car.make = data.get("make")
         if "model" in data:
-            car.model = data["model"]
+            car.model = data.get("model")
         if "year" in data:
-            car.year = int(data["year"])
+            try:
+                year = int(data.get("year"))
+            except (TypeError, ValueError):
+                raise ValidationError("Year must be a valid integer")
+            if year <= 0:
+                raise ValidationError("Year must be a positive integer")
+            car.year = year
         if "price_per_hour" in data:
-            car.price_per_hour = Decimal(data["price_per_hour"])
+            try:
+                price_per_hour = Decimal(str(data.get("price_per_hour")))
+            except (TypeError, InvalidOperation):
+                raise ValidationError("Price per hour must be a valid decimal number")
+            if price_per_hour < 0:
+                raise ValidationError("Price per hour cannot be negative")
+            car.price_per_hour = price_per_hour
         if "status" in data:
-            car.status = data["status"]
+            new_status = data.get("status")
+            if isinstance(new_status, CarStatus):
+                car.status = new_status
+            else:
+                if not isinstance(new_status, str):
+                    raise ValidationError("Status must be a string or CarStatus enum")
+                try:
+                    car.status = CarStatus(new_status.lower())
+                except ValueError:
+                    raise ValidationError("Invalid status value")
 
         db.session.commit()
         return car
@@ -85,6 +120,8 @@ def delete_car(car_id, merchant_id):
     car = Car.query.filter_by(id=int(car_id), merchant_id=int(merchant_id)).first()
     if not car:
         raise CarNotFoundError("Car not found")
+    if car.status == CarStatus.RENTED:
+        raise ValidationError("Cannot delete a car that is currently rented")
     db.session.delete(car)
     db.session.commit()
     return {"message": "Successfully deleted"}

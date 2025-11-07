@@ -48,6 +48,8 @@ def update_merchant_car(car_id):
         merchant_id = current_user.merchant_profile.id
         updated_car = services.update_car(car_id, data, merchant_id)
         return jsonify(updated_car.to_dict()), 200
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
     except CarNotFoundError as e:
         return jsonify({"error": str(e)}), 404
     except Exception as e:
@@ -62,6 +64,8 @@ def delete_merchant_car(car_id):
         merchant_id = current_user.merchant_profile.id
         result = services.delete_car(car_id, merchant_id)
         return jsonify(result)
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
     except CarNotFoundError as e:
         return jsonify({"error": str(e)}), 404
     except Exception as e:
