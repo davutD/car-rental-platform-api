@@ -19,7 +19,7 @@ class Car(db.Model):
 
     merchant_id = db.Column(db.Integer, db.ForeignKey("merchants.id"), nullable=False)
     merchant = db.relationship("Merchant", back_populates="cars")
-    # rentals = db.relationship("Rental", back_populates="car", lazy="dynamic")
+    rentals = db.relationship("Rental", back_populates="car", lazy="dynamic")
 
     def __repr__(self):
         return f"<Car {self.year} {self.make} {self.model}>"

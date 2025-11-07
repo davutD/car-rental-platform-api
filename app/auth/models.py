@@ -20,9 +20,9 @@ class User(db.Model, UserMixin):
     merchant_profile = db.relationship(
         "Merchant", back_populates="user", uselist=False, cascade="all, delete-orphan"
     )
-    # rentals = db.relationship(
-    #     "Rental", back_populates="user", lazy="dynamic", cascade="all, delete-orphan"
-    # )
+    rentals = db.relationship(
+        "Rental", back_populates="user", lazy="dynamic", cascade="all, delete-orphan"
+    )
 
     def __repr__(self):
         return f"<User {self.email}, {self.name} {self.surname}>"
