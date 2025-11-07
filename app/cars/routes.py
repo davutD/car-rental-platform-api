@@ -94,7 +94,7 @@ def get_all_cars():
 def query_cars():
     try:
         query_params = request.args.to_dict()
-        pagination_object = services.get_available_cars(query_params)
+        pagination_object = services.query_cars(query_params)
         cars = [car.to_dict() for car in pagination_object.items]
         pagination_meta = {
             "page": pagination_object.page,
@@ -104,6 +104,32 @@ def query_cars():
         }
 
         return jsonify({"cars": cars, "pagination": pagination_meta})
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@cars.route("/query-merchant-cars", methods=["GET"])
+@login_required
+@role_required(UserRole.MERCHANT)
+def query_merchant_cars():
+    try:
+        merchant_id = current_user.merchant_profile.id
+        query_params = request.args.to_dict()
+        pagination_obj = services.query_merchant_cars(merchant_id, query_params)
+        cars_list = [car.to_dict() for car in pagination_obj.items]
+        pagination_meta = {
+            "page": pagination_obj.page,
+            "per_page": pagination_obj.per_page,
+            "total_pages": pagination_obj.pages,
+            "total_items": pagination_obj.total,
+        }
+
+        return jsonify({"cars": cars_list, "pagination": pagination_meta}), 200
+
     except CarNotFoundError as e:
         return jsonify({"error": str(e)}), 404
     except ValidationError as e:
