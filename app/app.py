@@ -14,13 +14,16 @@ def create_app():
 
     from app.auth import models
     from app.cars import models
+    from app.rentals import models
 
     from app.auth.routes import auth
     from app.core.routes import core
     from app.cars.routes import cars
+    from app.rentals.routes import rentals
 
     app.register_blueprint(core, url_prefix="/")
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(cars, url_prefix="/cars")
+    app.register_blueprint(rentals, url_prefix="/rentals")
 
     return app

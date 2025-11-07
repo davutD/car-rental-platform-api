@@ -1,7 +1,6 @@
 from decimal import Decimal, InvalidOperation
 from ..extensions import db
 from .models import Car, CarStatus
-from app.auth.models import Merchant
 from sqlalchemy import func
 
 
