@@ -88,3 +88,25 @@ def get_all_cars():
         return jsonify({"error": str(e)}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@cars.route("/query-cars", methods=["GET"])
+def query_cars():
+    try:
+        query_params = request.args.to_dict()
+        pagination_object = services.get_available_cars(query_params)
+        cars = [car.to_dict() for car in pagination_object.items]
+        pagination_meta = {
+            "page": pagination_object.page,
+            "per_page": pagination_object.per_page,
+            "total_pages": pagination_object.pages,
+            "total_items": pagination_object.total,
+        }
+
+        return jsonify({"cars": cars, "pagination": pagination_meta})
+    except CarNotFoundError as e:
+        return jsonify({"error": str(e)}), 404
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
