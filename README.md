@@ -156,9 +156,9 @@ If you change `DB_HOST_PORT` in `.env`, rebuild the stack or recreate the `db` s
 
 Spin up the API locally and import the ready-made Postman collection to try every endpoint without writing curl commands.
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.postman.co/run-collection/36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b?action=collection/run&source=rip_markdown&collection-url=entityId%3D36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b%26entityType%3Dcollection%26workspaceId%3D0b4e06a3-25d6-4ee5-8a96-7671c42a5982)
+[![Run in Postman](https://www.postman.com/aerospace-physicist-94159406/car-rental-platform-api/collection/xxqpmef/car-rental-platform?action=share&creator=0)
 
-Prefer to browse it inside Postman first? Use the workspace share link: https://.postman.co/workspace/My-Workspace~0b4e06a3-25d6-4ee5-8a96-7671c42a5982/collection/36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b?action=share&creator=36692067
+Prefer to browse it inside Postman first? Use the workspace share link: https://www.postman.com/aerospace-physicist-94159406/car-rental-platform-api/collection/xxqpmef/car-rental-platform?action=share&creator=0
 
 ## Third-Party Usage Guide
 
