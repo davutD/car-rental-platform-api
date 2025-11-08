@@ -28,12 +28,12 @@ Authentication is cookie-based via Flask-Login, so once a user signs in, subsequ
 
 ## Domain Roles & Entities
 
-| Entity / Role | Description |
-| --- | --- |
-| `User` | Base account with `email`, `name`, `surname`, hashed password, and `role`. |
-| `Merchant` | One-to-one extension of `User` accounts with `role = merchant`, holding `company_name` and associated cars. |
-| `Car` | Inventory item with `make`, `model`, `year`, `price_per_hour`, `status` (`available`/`rented`), linked to a merchant. |
-| `Rental` | Represents a driver’s booking, captures rental & return timestamps and computes `total_fee`. |
+| Entity / Role | Description                                                                                                           |
+| ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `User`        | Base account with `email`, `name`, `surname`, hashed password, and `role`.                                            |
+| `Merchant`    | One-to-one extension of `User` accounts with `role = merchant`, holding `company_name` and associated cars.           |
+| `Car`         | Inventory item with `make`, `model`, `year`, `price_per_hour`, `status` (`available`/`rented`), linked to a merchant. |
+| `Rental`      | Represents a driver’s booking, captures rental & return timestamps and computes `total_fee`.                          |
 
 ## API Surface
 
@@ -41,36 +41,36 @@ Base URL defaults to `http://localhost:5005`. All authenticated routes rely on t
 
 ### Auth
 
-| Method | Endpoint | Description | Auth |
-| --- | --- | --- | --- |
-| `POST` | `/auth/register` | Create user or merchant. Merchants must include `role=merchant` and `company_name`. | Public |
-| `POST` | `/auth/login` | Email/password login. Stores a session cookie. | Public |
-| `POST` | `/auth/logout` | Clears the session. | Logged-in |
-| `GET` | `/auth/me` | Returns the current user profile and role. | Logged-in |
+| Method | Endpoint         | Description                                                                         | Auth      |
+| ------ | ---------------- | ----------------------------------------------------------------------------------- | --------- |
+| `POST` | `/auth/register` | Create user or merchant. Merchants must include `role=merchant` and `company_name`. | Public    |
+| `POST` | `/auth/login`    | Email/password login. Stores a session cookie.                                      | Public    |
+| `POST` | `/auth/logout`   | Clears the session.                                                                 | Logged-in |
+| `GET`  | `/auth/me`       | Returns the current user profile and role.                                          | Logged-in |
 
 ### Cars
 
-| Method | Endpoint | Description | Role |
-| --- | --- | --- | --- |
-| `POST` | `/cars/create` | Merchant creates a car (make/model/year/price). | Merchant |
-| `GET` | `/cars/my-cars` | List all cars that belong to the logged-in merchant. | Merchant |
-| `PUT` | `/cars/<car_id>` | Update make/model/year/price/status if you own the car. | Merchant |
-| `DELETE` | `/cars/<car_id>` | Delete a car (must not be rented). | Merchant |
-| `GET` | `/cars/<car_id>` | Retrieve a single car (public). | Public |
-| `GET` | `/cars/` | List all cars (public). | Public |
-| `GET` | `/cars/query-cars` | Paginated discovery for available cars with filters (`make`, `model`, `year`, `min_price`, `max_price`, `merchant_id`). | Public |
-| `GET` | `/cars/query-merchant-cars` | Merchant-only paginated listings with status & pricing filters. | Merchant |
+| Method   | Endpoint                    | Description                                                                                                             | Role     |
+| -------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------- |
+| `POST`   | `/cars/create`              | Merchant creates a car (make/model/year/price).                                                                         | Merchant |
+| `GET`    | `/cars/my-cars`             | List all cars that belong to the logged-in merchant.                                                                    | Merchant |
+| `PUT`    | `/cars/<car_id>`            | Update make/model/year/price/status if you own the car.                                                                 | Merchant |
+| `DELETE` | `/cars/<car_id>`            | Delete a car (must not be rented).                                                                                      | Merchant |
+| `GET`    | `/cars/<car_id>`            | Retrieve a single car (public).                                                                                         | Public   |
+| `GET`    | `/cars/`                    | List all cars (public).                                                                                                 | Public   |
+| `GET`    | `/cars/query-cars`          | Paginated discovery for available cars with filters (`make`, `model`, `year`, `min_price`, `max_price`, `merchant_id`). | Public   |
+| `GET`    | `/cars/query-merchant-cars` | Merchant-only paginated listings with status & pricing filters.                                                         | Merchant |
 
 ### Rentals
 
-| Method | Endpoint | Description | Role |
-| --- | --- | --- | --- |
-| `POST` | `/rentals/rent/<car_id>` | Start a rental. Fails if you already have an active rental or the car is unavailable. | User |
-| `POST` | `/rentals/return` | Complete the active rental; calculates total fees using car hourly price. | User |
-| `GET` | `/rentals/user/history` | List all rentals for the logged-in user. | User |
-| `GET` | `/rentals/user/query` | Paginated rental history filters (status, fees, car details, date windows). | User |
-| `GET` | `/rentals/merchant/history` | Rentals involving the merchant’s fleet. | Merchant |
-| `GET` | `/rentals/merchant/query` | Merchant rental analytics with pagination plus `user_id`, `car_id`, `status`, fee & date filters. | Merchant |
+| Method | Endpoint                    | Description                                                                                       | Role     |
+| ------ | --------------------------- | ------------------------------------------------------------------------------------------------- | -------- |
+| `POST` | `/rentals/rent/<car_id>`    | Start a rental. Fails if you already have an active rental or the car is unavailable.             | User     |
+| `POST` | `/rentals/return`           | Complete the active rental; calculates total fees using car hourly price.                         | User     |
+| `GET`  | `/rentals/user/history`     | List all rentals for the logged-in user.                                                          | User     |
+| `GET`  | `/rentals/user/query`       | Paginated rental history filters (status, fees, car details, date windows).                       | User     |
+| `GET`  | `/rentals/merchant/history` | Rentals involving the merchant’s fleet.                                                           | Merchant |
+| `GET`  | `/rentals/merchant/query`   | Merchant rental analytics with pagination plus `user_id`, `car_id`, `status`, fee & date filters. | Merchant |
 
 ## Prerequisites
 
@@ -156,21 +156,24 @@ If you change `DB_HOST_PORT` in `.env`, rebuild the stack or recreate the `db` s
 
 Spin up the API locally and import the ready-made Postman collection to try every endpoint without writing curl commands.
 
-[![Run in Postman](https://www.postman.com/aerospace-physicist-94159406/car-rental-platform-api/collection/xxqpmef/car-rental-platform?action=share&creator=0)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/aerospace-physicist-94159406/workspace/car-rental-platform-api/collection/36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b?action=share&creator=36692067)
 
-Prefer to browse it inside Postman first? Use the workspace share link: https://www.postman.com/aerospace-physicist-94159406/car-rental-platform-api/collection/xxqpmef/car-rental-platform?action=share&creator=0
+Prefer to browse it inside Postman first? Use the workspace share link: https://www.postman.com/aerospace-physicist-94159406/workspace/car-rental-platform-api/collection/36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b?action=share&creator=36692067
 
 ## Third-Party Usage Guide
 
 Once the containers are running, any external consumer can interact with the API using cURL, Postman, Hoppscotch, or a browser (session cookies will be set by `/auth/login`). A typical flow:
 
 1. **Start the stack**
+
    ```bash
    docker compose up -d
    ```
+
    API is now at `http://localhost:5005`.
 
 2. **Register accounts**
+
    - Merchant (requires `role` + `company_name`):
      ```bash
      curl -X POST http://localhost:5005/auth/register \
@@ -186,31 +189,38 @@ Once the containers are running, any external consumer can interact with the API
 
 3. **Authenticate and capture the session cookie**
    Flask-Login responds with a `Set-Cookie` header. Use `curl`’s cookie jar to persist it:
+
    ```bash
    curl -X POST http://localhost:5005/auth/login \
      -H "Content-Type: application/json" \
      -d '{"email":"merchant@example.com","password":"Pass123!"}' \
      -c merchant-cookie.txt
    ```
+
    Subsequent merchant-only actions pass `-b merchant-cookie.txt`. Repeat the same for the driver (use a different cookie jar file).
 
 4. **Merchant publishes inventory**
+
    ```bash
    curl -X POST http://localhost:5005/cars/create \
      -H "Content-Type: application/json" \
      -b merchant-cookie.txt \
      -d '{"make":"Tesla","model":"Model 3","year":2023,"price_per_hour":"18.50"}'
    ```
+
    Use `/cars/my-cars` to verify, `/cars/<id>` to fetch, or `/cars/<id>` with `PUT`/`DELETE` to manage.
 
 5. **Public discovery**
    Anyone (no auth) can browse:
+
    ```bash
    curl "http://localhost:5005/cars/query-cars?make=tesla&max_price=20&page=1&per_page=5"
    ```
+
    The response returns `cars` plus `pagination` metadata a UI can paginate on.
 
 6. **Driver rents and returns**
+
    ```bash
    # Login as driver and capture cookie
    curl -X POST http://localhost:5005/auth/login \
@@ -224,6 +234,7 @@ Once the containers are running, any external consumer can interact with the API
    # Return the active rental (fee is auto-calculated)
    curl -X POST http://localhost:5005/rentals/return -b driver-cookie.txt
    ```
+
    Drivers can inspect their history at `/rentals/user/history` or use `/rentals/user/query` with rich filters such as `status=completed&rental_date_start=2024-01-01`.
 
 7. **Merchant analytics**
