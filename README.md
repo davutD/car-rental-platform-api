@@ -152,6 +152,14 @@ Point your client at the host-mapped port:
 
 If you change `DB_HOST_PORT` in `.env`, rebuild the stack or recreate the `db` service so Docker picks up the new mapping: `docker compose up -d db --force-recreate`.
 
+## Postman Collection
+
+Spin up the API locally and import the ready-made Postman collection to try every endpoint without writing curl commands.
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.postman.co/run-collection/36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b?action=collection/run&source=rip_markdown&collection-url=entityId%3D36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b%26entityType%3Dcollection%26workspaceId%3D0b4e06a3-25d6-4ee5-8a96-7671c42a5982)
+
+Prefer to browse it inside Postman first? Use the workspace share link: https://.postman.co/workspace/My-Workspace~0b4e06a3-25d6-4ee5-8a96-7671c42a5982/collection/36692067-25275eee-9d95-438b-8cb4-ed7f3cfd013b?action=share&creator=36692067
+
 ## Third-Party Usage Guide
 
 Once the containers are running, any external consumer can interact with the API using cURL, Postman, Hoppscotch, or a browser (session cookies will be set by `/auth/login`). A typical flow:
